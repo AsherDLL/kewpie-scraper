@@ -1,0 +1,68 @@
+{
+  "_comment": "Example Kewpie sources. The engine holds no URLs or keys; put them here. Copy this file, edit, and point KEWPIE_SOURCES_CONFIG at it (or pass --sources).",
+  "defaults": {
+    "rate_limit_per_second": 0.5,
+    "cache_ttl_hours": 6,
+    "respect_robots": true,
+    "user_agent_contact": "kewpie/0.1 (+https://github.com/AsherDLL/kewpie-crawler)",
+    "max_tier": "impersonate"
+  },
+  "sources": [
+    {
+      "type": "rss",
+      "id": "hackernews",
+      "name": "Hacker News (front page)",
+      "url": "https://news.ycombinator.com/rss",
+      "base_confidence": 0.6,
+      "fetch_full_article": false
+    },
+    {
+      "type": "reddit",
+      "id": "reddit_technology",
+      "name": "r/technology",
+      "subreddit": "technology",
+      "listing": "new",
+      "mode": "rss",
+      "base_confidence": 0.4
+    },
+    {
+      "type": "web",
+      "id": "example_site",
+      "name": "Example news site",
+      "start_urls": ["https://example.com/news/"],
+      "link_selector": "a.article-link",
+      "url_pattern": "https://example\\.com/news/.+",
+      "max_links": 20,
+      "max_tier": "browser"
+    },
+    {
+      "type": "x",
+      "id": "x_disabled_example",
+      "name": "X (best-effort; off by default)",
+      "mode": "off",
+      "query": "from:SomeAccount",
+      "tweet_ids": [],
+      "official": { "bearer_token_env": "X_BEARER_TOKEN" }
+    },
+    {
+      "type": "newsapi",
+      "id": "newsapi_org",
+      "name": "NewsAPI.org",
+      "endpoint": "https://newsapi.org/v2/everything",
+      "auth": { "mode": "query", "param": "apiKey", "key_env": "NEWSAPI_KEY" },
+      "query_params": { "q": "open source", "language": "en", "pageSize": 25 },
+      "items_path": "articles",
+      "ok_predicate": { "field": "status", "not_equals": "error" },
+      "field_map": {
+        "url": "url",
+        "title": "title",
+        "summary": "description",
+        "body": "content",
+        "published": "publishedAt",
+        "author": "author",
+        "source_name": "source.name"
+      },
+      "base_confidence": 0.6
+    }
+  ]
+}

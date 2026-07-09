@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "kewpie-crawler"
+version = "0.1.0"
+description = "A reusable, anti-bot-resistant, config-driven content collector."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Asher Davila" }]
+keywords = ["scraping", "crawler", "anti-bot", "tls-fingerprint", "rss", "news"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP :: Indexing/Search",
+]
+dependencies = [
+    "curl_cffi>=0.15",
+    "feedparser>=6.0",
+    "beautifulsoup4>=4.12",
+    "lxml>=5",
+    "pydantic>=2.7",
+    "protego>=0.3",
+    "pandas>=2.2",
+    "pyarrow>=16",
+]
+
+[project.optional-dependencies]
+browser = ["nodriver>=0.40"]
+camoufox = ["camoufox>=0.4"]
+reddit = ["praw>=7"]
+all = ["nodriver>=0.40", "camoufox>=0.4", "praw>=7"]
+dev = ["pytest>=8", "respx>=0.21", "ruff>=0.6", "mypy>=1.11"]
+
+[project.scripts]
+kewpie = "kewpie.cli.main:main"
+
+[project.urls]
+Homepage = "https://github.com/AsherDLL/kewpie-crawler"
+Repository = "https://github.com/AsherDLL/kewpie-crawler"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/kewpie"]
+
+[tool.pytest.ini_options]
+markers = [
+    "live: opt-in tests that hit the real network (deselected by default)",
+]
+addopts = "-m 'not live'"
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"

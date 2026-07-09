@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+
+# Virtualenv
+.venv/
+venv/
+
+# Kewpie runtime state (cache, learned policy, conditional-GET state)
+.kewpie_state/
+data/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store

@@ -1,0 +1,28 @@
+{
+  "_comment": "Example vocabulary: entities to find and signal patterns to match near them. Domain-agnostic; the code has no hardcoded terms. Point KEWPIE_VOCAB_CONFIG here or pass --vocab.",
+  "proximity_chars": 220,
+  "min_term_len": 5,
+  "entities": {
+    "source": "inline",
+    "id_field": "entity_id",
+    "name_fields": ["full_name", "known_name"],
+    "extra_fields": ["sector"],
+    "items": [
+      { "entity_id": 1, "full_name": "OpenAI", "known_name": null, "sector": "ai" },
+      { "entity_id": 2, "full_name": "Cloudflare", "known_name": null, "sector": "infra" },
+      { "entity_id": 3, "full_name": "Anthropic", "known_name": null, "sector": "ai" }
+    ]
+  },
+  "signals": {
+    "outage": { "class": "risk", "patterns": ["outage", "downtime", "went down", "service disruption"] },
+    "acquisition": { "class": "info", "patterns": ["acquires", "acquisition", "to buy", "buys"] },
+    "layoffs": { "class": "risk", "patterns": ["layoffs", "lay off", "job cuts", "redundancies"] },
+    "funding": { "class": "boost", "patterns": ["raises", "funding round", "series a", "series b"] }
+  },
+  "prefilter_default": {
+    "enabled": true,
+    "match": "any",
+    "keywords": ["outage", "acquisition", "layoffs", "funding"],
+    "fields": ["title", "summary"]
+  }
+}

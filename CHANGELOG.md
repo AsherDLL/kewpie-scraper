@@ -5,7 +5,7 @@ based on Keep a Changelog, and the project follows semantic versioning.
 
 ## [0.1.0] - unreleased
 
-Initial release.
+Initial release. Licensed under GPL-3.0-or-later.
 
 ### Added
 - HTTP impersonation engine (`kewpie.engine`): `StealthClient` with curl_cffi

@@ -22,7 +22,8 @@ escalates to a headless browser rather than pretending the challenge page is dat
 
 Kewpie does not try to win a bypass arms race. It orchestrates best-of-breed
 open-source tools (`curl_cffi` for impersonation, `nodriver`/`camoufox` for the
-browser tier) and adds the orchestration layer that most scrapers lack.
+browser tier) and adds the orchestration layer that most scrapers lack. The full
+rationale is in [`docs/anti-bot.md`](docs/anti-bot.md).
 
 ## Install
 
@@ -32,6 +33,8 @@ pip install "kewpie-crawler[browser]"      # + headless nodriver escalation tier
 pip install "kewpie-crawler[reddit]"       # + PRAW for the Reddit official API
 pip install "kewpie-crawler[all]"          # everything
 ```
+
+Requires Python 3.12+.
 
 ## Quickstart
 
@@ -89,7 +92,22 @@ re-run any number of times without re-fetching. A fetch-time keyword prefilter i
 available per source for high-volume feeds, but it is off by default: filtering at
 fetch time discards data you cannot get back without re-scraping.
 
-See `src/kewpie/config/sources.example.json` and `vocabulary.example.json`.
+See `src/kewpie/config/sources.example.json` and `vocabulary.example.json`, and the
+end-to-end, non-football demo in `examples/reusability_demo.py`.
+
+## Development and testing
+
+```bash
+git clone <repo> && cd kewpie-crawler
+python -m venv .venv && . .venv/bin/activate
+pip install -e ".[dev,all]"
+
+pytest -q                 # 50 unit tests (offline, mocked transport)
+pytest -m live -q         # opt-in live-network smoke tests
+ruff check src tests      # lint
+kewpie doctor             # verify your fingerprint is coherent, end to end
+python examples/reusability_demo.py   # prove domain independence on a non-football feed
+```
 
 ## Escalation beyond Kewpie
 
@@ -104,10 +122,25 @@ hand-maintained bypasses break within days.
 
 Kewpie ships with conservative defaults: robots.txt is honored, rate limits are
 low, and it only reads public content. Prefer official APIs and RSS where they
-exist. See [`docs/ethics.md`](docs/ethics.md) for the full responsible-use
-guidance and per-platform posture. You are responsible for complying with each
-site's terms of service and the law in your jurisdiction.
+exist. See [`docs/ethics.md`](docs/ethics.md) for the full responsible-use guidance
+and per-platform posture. You are responsible for complying with each site's terms
+of service and the law in your jurisdiction.
 
 ## License
 
-MIT. See `LICENSE`.
+Kewpie Crawler is free software, licensed under the GNU General Public License
+version 3 or later (GPL-3.0-or-later). See [`LICENSE`](LICENSE) for the full text.
+
+    Copyright (C) 2026 Asher Davila
+
+    This program is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the Free
+    Software Foundation, either version 3 of the License, or (at your option)
+    any later version.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+    FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with
+    this program. If not, see <https://www.gnu.org/licenses/>.
